@@ -1,7 +1,7 @@
 const User = require('../models/User')
 const {StatusCodes} = require('http-status-codes')
 const {BadRequestError, UnauthenticatedError} = require('../errors');
-const { createUserToken, attachCookiesToResponse } = require('../utils');
+const { createUserToken, attachCookiesToResponse, checkPermissions } = require('../utils');
 
 
 const getAllUsers = async (req,res) =>{
@@ -15,6 +15,8 @@ const getUser = async (req,res) =>{
     const user = await User.findOne({_id : req.params.id}).select('-password')
 
     if(!user) throw new BadRequestError(`User not found by : ${req.params.id}`)
+
+    checkPermissions(req.user,user._id)
     res.status(StatusCodes.OK).json({user})
 }
 const getCurrentUser = async (req,res) =>{
@@ -33,6 +35,7 @@ const updateUser = async (req,res) =>{
 
     res.status(StatusCodes.OK).json({user:userToken})
 }
+
 const updateUserPassword = async (req,res) =>{
     const {currentPassword,newPassword} = req.body
     if(!currentPassword || !newPassword) throw new BadRequestError('Current and new passwords is required')
