@@ -37,7 +37,13 @@ const register = async (req, res) => {
 }
 
 const logout = async (req, res) => {
-    res.send("logout fetch")
+    res.cookie('token','logout',{
+        httpOnly:true,
+        expires: new Date(Date.now()) 
+    })
+
+    res.status(StatusCodes.OK).json({msj: 'User logged out!'})
+
 }
 
 module.exports = { login, register, logout }
