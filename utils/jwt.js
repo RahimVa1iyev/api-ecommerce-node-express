@@ -7,4 +7,17 @@ const jwt = require('jsonwebtoken')
 
 const verifyToken =  ({token}) => jwt.verify(token ,process.env.JWT_SECRET)
 
-module.exports = {createJWT , verifyToken}
+
+const attachCookiesToResponse = ({res,user}) =>{
+    const token = createJWT({payload:user})
+
+    const oneDay = 1000 *60 *60 *24
+
+    res.cookie('token',token,{
+        httpOnly :true,
+        expires : new Date(Date.now() + oneDay)
+    })
+
+}
+
+module.exports = {createJWT , verifyToken,attachCookiesToResponse}

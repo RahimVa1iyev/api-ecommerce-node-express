@@ -1,8 +1,7 @@
 const User = require('../models/User')
 const { BadRequestError } = require('../errors')
 const {StatusCodes} = require('http-status-codes')
-const { use } = require('express/lib/router')
-const { createJWT } = require('../utils/jwt')
+const { attachCookiesToResponse } = require('../utils')
 
 
 const login = async (req, res) => {
@@ -16,16 +15,11 @@ const register = async (req, res) => {
     const role = isFirstAccount ? 'admin' : 'user'
 
     const user = await User.create({name,email,password,role})
+
     const userToken = {name : user.name , userId : user._id, role : user.role}
-    const token = createJWT({payload:userToken})
+     attachCookiesToResponse({res,user : userToken})
 
-    const oneDay = 1000 *60 *60 *24
-    res.cookie('token',token,{
-        httpOnly :true,
-        expires : new Date(Date.now() + oneDay)
-    })
-
-    res.status(StatusCodes.CREATED).json({user : {name:user.name , role :user.role } , token })
+    res.status(StatusCodes.CREATED).json({user:userToken})
 }
 
 const logout = async (req, res) => {
