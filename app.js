@@ -1,5 +1,6 @@
 require('dotenv').config()
 require('express-async-errors')
+const morgan = require('morgan')
 
 const express = require('express')
 const app = express()
@@ -11,6 +12,7 @@ const connectDB = require('./db/connect')
 const notFountMiddleware = require('./middleware/not-found')
 const errorHandlerMiddleware = require('./middleware/error-handler')
 
+app.use(morgan)
 app.use(express.json())
 
 app.get('/', (req,res) => {
