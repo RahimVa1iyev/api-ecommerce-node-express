@@ -1,6 +1,7 @@
 const User = require('../models/User')
 const {StatusCodes} = require('http-status-codes')
-const {BadRequestError, UnauthenticatedError} = require('../errors')
+const {BadRequestError, UnauthenticatedError} = require('../errors');
+const { createUserToken, attachCookiesToResponse } = require('../utils');
 
 
 const getAllUsers = async (req,res) =>{
@@ -20,7 +21,17 @@ const getCurrentUser = async (req,res) =>{
     res.status(StatusCodes.OK).json({user : req.user})
 }
 const updateUser = async (req,res) =>{
-    res.send('update user')
+    const {name,email} = req.body
+    console.log(name);
+    console.log(req.user);
+    if(!req.body) throw new BadRequestError('Fields is not empty')
+
+    const user = await User.findOneAndUpdate({_id:req.user.userId},{name,email},{new:true , runValidators:true})
+
+    const userToken = createUserToken(user)
+    attachCookiesToResponse({res,user:userToken})
+
+    res.status(StatusCodes.OK).json({user:userToken})
 }
 const updateUserPassword = async (req,res) =>{
     const {currentPassword,newPassword} = req.body
