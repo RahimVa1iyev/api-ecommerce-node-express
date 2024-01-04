@@ -1,0 +1,10 @@
+const jwt = require('jsonwebtoken')
+
+ const createJWT =  (payload) => {
+    const token =  jwt.sign(payload,process.env.JWT_SECRET , {expiresIn : process.env.JWT_LIFE_TIME})
+    return token
+}
+
+const verifyToken =  ({token}) => jwt.verify(token ,process.env.JWT_SECRET)
+
+module.exports = {createJWT , verifyToken}

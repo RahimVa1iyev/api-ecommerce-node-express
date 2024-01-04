@@ -40,10 +40,6 @@ UserSchema.methods.comparePassword = async function(canditatePassword){
     return isMatch
 }
 
-UserSchema.methods.createJWT =  function(){
-    const tokenUser = {name : this.name , userId: this._id , role : this.role}
-    const token =  jwt.sign(tokenUser,process.env.JWT_SECRET , {expiresIn : process.env.JWT_LIFE_TIME})
-    return token
-}
+
 
 module.exports = mongoose.model("User",UserSchema)

@@ -2,6 +2,7 @@ const User = require('../models/User')
 const { BadRequestError } = require('../errors')
 const {StatusCodes} = require('http-status-codes')
 const { use } = require('express/lib/router')
+const { createJWT } = require('../utils/jwt')
 
 
 const login = async (req, res) => {
@@ -15,8 +16,8 @@ const register = async (req, res) => {
     const role = isFirstAccount ? 'admin' : 'user'
 
     const user = await User.create({name,email,password,role})
-
-    const token = user.createJWT()
+    const userToken = {name : user.name , userId : user._id, role : user.role}
+    const token = createJWT({payload:userToken})
 
     res.status(StatusCodes.CREATED).json({user : {name:user.name , role :user.role } , token })
 }
