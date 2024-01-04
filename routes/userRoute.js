@@ -4,7 +4,7 @@ const {authenticateUser,authorizePermissions} = require('../middleware/authentic
 
 const {getAllUsers,getUser,getCurrentUser,updateUser,updateUserPassword} = require('../controllers/userController')
 
-router.route('/').get(authenticateUser,authorizePermissions,getAllUsers)
+router.route('/').get(authenticateUser,authorizePermissions('admin','owner'),getAllUsers)
 router.route('/:id').get(authenticateUser,getUser).get(getCurrentUser).patch(updateUser).patch(updateUserPassword)
 
 
