@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken')
     return token
 }
 
-const verifyToken =  ({token}) => jwt.verify(token ,process.env.JWT_SECRET)
+const isTokenValid =  ({token}) => jwt.verify(token ,process.env.JWT_SECRET)
 
 
 const attachCookiesToResponse = ({res,user}) =>{
@@ -22,4 +22,4 @@ const attachCookiesToResponse = ({res,user}) =>{
 
 }
 
-module.exports = {createJWT , verifyToken,attachCookiesToResponse}
+module.exports = {createJWT , isTokenValid,attachCookiesToResponse}

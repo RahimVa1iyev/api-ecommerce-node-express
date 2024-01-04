@@ -4,6 +4,7 @@ const {BadRequestError} = require('../errors')
 
 
 const getAllUsers = async (req,res) =>{
+    console.log(req.user);
     const users = await User.find({role : 'user'}).select('-password')
 
     res.status(StatusCodes.OK).json({users})
@@ -22,7 +23,7 @@ const updateUser = async (req,res) =>{
     res.send('update user')
 }
 const updateUserPassword = async (req,res) =>{
-    res.send('update user password')
+    res.send('update user passwo')
 }
 
 module.exports = {getAllUsers,getUser,getCurrentUser,updateUser,updateUserPassword}
