@@ -9,4 +9,6 @@ const createCategory = async (req,res) =>{
     res.status(StatusCodes.CREATED).json({category})
 }
 
+
+
 module.exports = createCategory
