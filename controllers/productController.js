@@ -1,5 +1,12 @@
+const Product = require('../models/Product')
+const {StatusCodes} = require('http-status-codes')
 
 const createProduct = async (req,res) =>{
+    const data = req.body
+    const {userId} = req.user
+
+    const product = await Product.create({})
+
     res.send('create')
 }
 
