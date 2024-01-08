@@ -9,7 +9,7 @@ const authenticateUser = async(req,res,next) =>{
         const {payload} = isTokenValid({token})
         req.user = {name :payload.name ,userId :payload.userId, role : payload.role}
         next()
-    } catch (error) {
+    } catch (error) {   
         throw new UnauthenticatedError('Authentication invalid')
     }
 }

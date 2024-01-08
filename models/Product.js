@@ -23,11 +23,7 @@ const ProductSchema = new mongoose.Schema(
         type: String,
         default: '/uploads/example.jpeg',
       },
-      category: {
-        type: String,
-        required: [true, 'Please provide product category'],
-        enum: ['office', 'kitchen', 'bedroom'],
-      },
+      categoryId :{ type: mongoose.Types.ObjectId, ref:'Category' },
       company: {
         type: String,
         required: [true, 'Please provide company'],

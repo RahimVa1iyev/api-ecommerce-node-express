@@ -13,6 +13,7 @@ const connectDB = require('./db/connect')
 // routes
 const authRoutes = require('./routes/authRoute')
 const userRoutes = require('./routes/userRoute')
+const productRoutes = require('./routes/productRoute')
 
 // error-middleware
 const notFountMiddleware = require('./middleware/not-found')
@@ -33,6 +34,7 @@ app.get('/api/v1', (req,res) => {
 
 app.use('/api/v1/auth',authRoutes)
 app.use('/api/v1/users',userRoutes)
+app.use('/api/v1/products',productRoutes)
 
 
 app.use(notFountMiddleware)
